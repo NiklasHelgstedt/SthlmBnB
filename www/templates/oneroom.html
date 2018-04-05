@@ -1,0 +1,137 @@
+<ion-view view-title="">
+    <ion-content class="splash">
+        <form name="myForm" ng-submit="submit()">
+            <div class="list card" ng-repeat="room in rooms | filter : {id : whichRoom}">
+                <div class="item">
+                    <h1 class="item item-text-wrapper" style="text-align:center">{{room.name}}</h1>
+                </div>
+                <div class="item item-body" style="text-align:center">
+                    <img src="../img/room{{room.imageid}}.jpg" atl="Bild" class="full-image">
+                    <h4>{{room.info}}</h4>
+                    <h3>{{room.price}}kr/natt</h3>
+                </div>
+
+                <div class="card">
+                    <!-- List for adults -->
+                    <ion-list>
+
+                        <div class="item item-divider item-text-wrap" style="text-align:center">Välj antal vuxna</div>
+
+                        <ion-radio ng-model="data.adults" ng-value="'1'" name="adults" ng-checked="1">En vuxen</ion-radio>
+
+                        <ion-radio ng-model="data.adults" ng-value="'2'" name="adults" ng-hide="{{room.id}} === 1">Två vuxna</ion-radio>
+                    </ion-list>
+
+
+                    <!-- List for kids -->
+                    <ion-list ng-show="{{room.id}} === 3">
+
+                        <div class="item item-divider" style="text-align:center">Välj antal barn</div>
+
+                        <ion-radio ng-model="data.kids" ng-value="'1'" name="kids">1 Barn</ion-radio>
+                        <ion-radio ng-model="data.kids" ng-value="'2'" name="kids">2 Barn</ion-radio>
+                        <ion-radio ng-model="data.kids" ng-value="'3'" name="kids">3 Barn</ion-radio>
+                        <ion-radio ng-model="data.kids" ng-value="'0'" name="kids">Inga Barn</ion-radio>
+                    </ion-list>
+                </div>
+
+                <!-- Card for arrival/depature dates -->
+                <div class="card">
+                        <div class="item item-divider" style="text-align:center">Datum</div>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Välj dag för incheckning</span>
+                        <input type="date" name="indate" min="{{dateToday | date:'yyyy-MM-dd'}}" max="2020-12-30" 
+                        ng-model="data.indate" required>
+                    </label>
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Välj dag för utcheckning</span>
+                        <input type="date" name="outdate" min="{{data.indate | date:'yyyy-MM-dd'}}" max="2020-12-31" 
+                            ng-model="data.outdate" required
+                            ng-disabled="myForm.inDate.$invalid">
+                    </label>
+                    <div style="text-align:center">
+                    <div class="item item-divider">Totalpris</div>
+                    <div class="item item-room">
+                        {{totalPrice(room.price, nights(data.indate, data.outdate))}}kr
+                    </div>
+                    </div>
+                    <input type="hidden" ng-model="data.totalprice" ng-value="data.totalprice=priceToReturn" name="totalprice" disabled>
+                </div>
+
+                <!-- Card for users information -->
+                <div class="list card">
+                    <div class="item item-divider" style="text-align:center">Fyll i uppgifterna</div>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Förnamn</span>
+                        <input type="text" required ng-model="data.fname">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Efternamn</span>
+                        <input type="text" required ng-model="data.lname">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Mobil</span>
+                        <input type="tel" required ng-model="data.tele">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Email</span>
+                        <input type="email" name="myEmail" required ng-model="data.email">
+                        <div ng-show="myForm.myEmail.$error.email" class="error">
+                            Ange en giltig email!
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <input type="submit" class="button button-large button-dark" style="margin-left:100px" value="Boka detta rum" 
+            ng-disabled="myForm.$invalid"
+                ng-click="openPopover($event)">
+
+        </form>
+
+
+        <script id="popo.html" type="text/ng-template">
+          <ion-popover-view>
+            <ion-header-bar>
+              <h1 class="title">Bekräftelse <ion-icon class="icon ion-checkmark-round" style="color:green" item-right></ion-icon></h1>
+              <a href="#/tab/rooms" ng-click="closePopover()"><ion-icon class="icon ion-ios-undo backIcon" style="color:green" item-right></ion-icon></a>
+            </ion-header-bar>
+
+            <!-- Displays compilation of the booking -->
+            <ion-content>
+            <div class="list" ng-repeat="room in rooms | filter: { id : whichRoom }">
+
+                <div class="item item-divider">Rum</div>
+                <div class="item item-room">{{room.name}}</div>
+
+                <div class="item item-divider">Namn</div>
+                      <div class="item item-room">{{data.fname}} {{data.lname}}</div>
+            
+                <div class="item item-divider">Mobil</div>
+                      <div class="item item-room">{{data.tele}}</div>
+            
+                <div class="item item-divider">Email</div>
+                      <div class="item item-room">{{data.email}}</div>
+            
+                <div class="item item-divider">Antal vuxna</div>
+                      <div class="item item-room">{{data.adults}}</div>
+            
+                <div class="item item-divider">Antal barn</div>
+                      <div class="item item-room">{{data.kids}}</div>
+
+                <div class="item item-divider">Incheckning&amp;Utcheckning</div>
+                      <div class="item item-room">{{data.indate | date: 'yyyy-MM-dd'}}</div>
+                      <div class="item item-room">{{data.outdate | date: 'yyyy-MM-dd'}}</div>
+                      
+                <div class="item item-divider">Totalpris</div>
+                     <div class="item item-room">
+                        {{totalPrice(room.price, nights(data.indate, data.outdate))}}kr
+                     </div> 
+            </div>
+              
+            </ion-content>
+          </ion-popover-view>
+        </script>
+    </ion-content>
+</ion-view>

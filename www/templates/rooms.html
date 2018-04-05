@@ -1,0 +1,15 @@
+<ion-view  view-title="Rum">
+    <ion-content class="splash">
+        <div class="card" ng-repeat="room in rooms" style="text-align:center">
+            <ion-item href="#/tab/rooms/{{room.id}}" class="item-text-wrap ">
+                <div class="item">
+                    <div class="headlines">{{room.name}}</div>
+                </div>
+                <div class="item item-body roomsPadding">
+                    <img src="../img/room{{room.imageid}}.jpg" atl="Bild" class="full-image">
+                    <h4>{{room.info}}</h4>
+                </div>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>

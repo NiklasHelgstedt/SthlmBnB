@@ -1,1 +1,52 @@
 /* Empty. Add your own CSS if you like */
+.icon-size{
+    font-size:5px;
+}
+.backIcon{
+    padding-top:10px;
+    font-size: 25px;
+}
+
+.tab-item .icon {
+    display: block;
+    margin: 0 auto;
+    margin-top: 3px;
+    height: 28px;
+    font-size: 28px;
+}
+.splash {
+    background: url(../img/bnb-background.jpg) no-repeat center center fixed;
+    background-size: cover;
+ } 
+ .branding {
+    width: 50%; max-width: 200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    text-align: center;
+    font-family: "Times New Roman";
+ }
+ 
+.card{
+    border-radius: 20px;
+}
+.roomsItem{
+    padding-left: auto;
+    padding-right: auto;
+}
+.popover{
+    height: 470px !important;
+    width: 320px !important;
+}
+.headlines{
+    font-weight: bold;
+    color: black;
+    font-size: 1.700em;
+}
+
+.item-complex .item-content, .item-radio .item-content {
+    position: relative;
+    z-index: 2;
+    padding: 16px 16px 16px 16px;
+    border: none;
+    background-color: #fff;
+}
